@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spend Extractor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Spendings Extractor</h1>
+        <p>Select your PDF statement and enter your name to begin.</p>
+
+        <div class="form-group">
+            <label for="name-input">First Name:</label>
+            <input type="text" id="name-input" placeholder="e.g., Seden">
+        </div>
+
+        <div class="form-group">
+            <label for="surname-input">Last Name:</label>
+            <input type="text" id="surname-input" placeholder="e.g., Mutaf">
+        </div>
+
+        <div class="form-group">
+            <label for="pdf-file">Select Statement PDF:</label>
+            <button id="file-select-btn">Choose File</button>
+            <span id="file-name">No file selected...</span>
+            <input type="file" id="pdf-file-input" accept=".pdf" hidden>
+        </div>
+
+        <button id="start-btn">Start Processing</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
