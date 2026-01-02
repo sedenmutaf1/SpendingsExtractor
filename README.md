@@ -28,11 +28,15 @@ Spendings Extractor is a desktop application designed to help users analyze and 
 
 Spendings Extractor aims to make personal finance tracking simple, visual, and actionable, helping users understand and manage their spending more effectively.
 
-## Installation
+## Using the App
 
-For installation, open the /gui/dist/ directory and run the "Spendings Extractor Setup 1.0.0.exe" setup file.
+### For End Users
+Download the Windows installer from the Releases page and run it.
+No additional setup or dependencies are required.
+
+### For Developers
+Clone the repository and run the app in development mode using npm.
 
 ## Notes
 Unfortunately, right now the app works with text files, not PDF. You must open the PDF and copy everything, then paste to a text file and it will work.
-
-App only works on Windows environment.
+The packaged app currently supports Windows only.
