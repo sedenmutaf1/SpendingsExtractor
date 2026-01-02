@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Categories</title>
+<link rel="stylesheet" href="styles-categories.css">
+</head>
+<body>
+<div class="container">
+    <h1>Payments Categorization</h1>
+
+    <div class="payments-and-categories">
+        <div class="payments-list">
+            <h2>Payments</h2>
+            <div id="payments-container"></div>
+            <div id="total-display"></div>
+        </div>
+
+        <div class="categories-section">
+            <h2>Categories</h2>
+            <div id="categories-container"></div>
+            <input type="text" id="new-category-input" placeholder="New category name">
+            <button id="add-category-btn">Add Category</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal overlay for zoomed category -->
+<div id="category-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <button id="modal-close-btn">✖</button>
+        <div id="modal-category-container"></div>
+    </div>
+</div>
+
+<script src="renderer-categories.js"></script>
+</body>
+</html>

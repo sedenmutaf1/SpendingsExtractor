@@ -1,0 +1,50 @@
+{
+  "name": "spendings-extractor",
+  "version": "1.0.0",
+  "description": "Spendings Extractor - Electron desktop app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "^39.1.1",
+    "electron-builder": "^24.13.3"
+  },
+  "dependencies": {
+    "pdf-parse": "^2.4.5",
+    "pdf-poppler": "^0.2.3",
+    "tesseract.js": "^6.0.1"
+  },
+  "build": {
+    "appId": "com.seden.spendings-extractor",
+    "productName": "Spendings Extractor",
+    "asar": true,
+    "files": [
+      "**/*",
+      "!node_modules/.cache/**"
+    ],
+    "extraResources": [
+      {
+        "from": "parser.exe",
+        "to": "parser.exe"
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}
