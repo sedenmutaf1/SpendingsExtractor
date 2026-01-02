@@ -74,7 +74,7 @@ app.whenReady().then(createExtractionWindow);
 ipcMain.handle('select-file', async () => {
     const { canceled, filePaths } = await dialog.showOpenDialog({
         properties: ['openFile'],
-        filters: [{ name: 'PDF Files', extensions: ['pdf'] }]
+        filters: [{ name: 'Text files', extensions: ['txt'] }]
     });
     if (canceled || filePaths.length === 0) return null;
     return filePaths[0];
