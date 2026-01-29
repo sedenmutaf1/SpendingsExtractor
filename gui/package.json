@@ -31,8 +31,8 @@
     ],
     "extraResources": [
       {
-        "from": "parser.exe",
-        "to": "parser.exe"
+        "from": "release",
+        "to": "parser"
       }
     ],
     "win": {
