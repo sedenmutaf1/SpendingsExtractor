@@ -1,29 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Extract Payments</title>
-<link rel="stylesheet" href="./styles-index.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Extract Payments</title>
+  <link rel="stylesheet" href="./styles-index.css" />
 </head>
 <body>
-<div class="container">
+  <div class="container">
     <h1>Extract Payments</h1>
 
     <div class="input-section">
-        <label for="name-input">First Name:</label>
-        <input type="text" id="name-input" placeholder="Enter first name">
+      <button id="select-file-btn">Select PDF</button>
+      <span id="selected-file">No file selected</span><br>
 
-        <label for="surname-input">Last Name:</label>
-        <input type="text" id="surname-input" placeholder="Enter last name">
-
-        <button id="select-file-btn">Select File</button>
-        <span id="selected-file">No file selected</span><br>
-
-        <button id="extract-btn">Extract Payments</button>
+      <button id="extract-btn">Extract Spendings</button>
     </div>
-</div>
+  </div>
 
-<script src="renderer-index.js"></script>
+  <script src="renderer-index.js"></script>
 </body>
 </html>
