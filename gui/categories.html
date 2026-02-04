@@ -1,37 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Categories</title>
-<link rel="stylesheet" href="styles-categories.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categories</title>
+  <link rel="stylesheet" href="styles-categories.css">
 </head>
 <body>
-<div class="container">
+
+<!-- Top bar -->
+<div class="topbar">
+  <div class="topbar-left">
+    <button id="toggle-cardholders-btn" class="topbar-btn" title="Toggle cardholders">☰ Cardholders</button>
     <h1>Payments Categorization</h1>
+  </div>
+  <div class="topbar-right" id="selected-chips"></div>
+</div>
 
-    <div class="payments-and-categories">
-        <div class="payments-list">
-            <h2>Payments</h2>
-            <div id="payments-container"></div>
-            <div id="total-display"></div>
-        </div>
+<!-- Collapsible sidebar -->
+<aside id="cardholders-sidebar" class="sidebar sidebar-closed">
+  <div class="sidebar-header">
+    <div class="sidebar-title">Cardholders</div>
+    <button id="close-sidebar-btn" class="icon-btn" title="Close">✖</button>
+  </div>
 
-        <div class="categories-section">
-            <h2>Categories</h2>
-            <div id="categories-container"></div>
-            <input type="text" id="new-category-input" placeholder="New category name">
-            <button id="add-category-btn">Add Category</button>
-        </div>
+  <div class="sidebar-subtitle">Select which cardholders to load into the payments list.</div>
+
+  <div id="sidebar-cardholders-list" class="sidebar-list"></div>
+
+  <div class="sidebar-actions">
+    <button id="apply-selection-btn" class="primary-btn">Apply selection</button>
+    <div class="sidebar-note">
+      Applying selection reloads the payments list (current categorization resets).
     </div>
+  </div>
+</aside>
+
+<div class="container">
+  <div class="payments-and-categories">
+
+    <div class="payments-list">
+      <h2>Payments</h2>
+      <div id="payments-container"></div>
+      <div id="total-display"></div>
+    </div>
+
+    <div class="categories-section">
+      <h2>Categories</h2>
+      <div id="categories-container"></div>
+      <input type="text" id="new-category-input" placeholder="New category name">
+      <button id="add-category-btn">Add Category</button>
+    </div>
+
+  </div>
 </div>
 
 <!-- Modal overlay for zoomed category -->
 <div id="category-modal" class="modal-overlay" style="display: none;">
-    <div class="modal-content">
-        <button id="modal-close-btn">✖</button>
-        <div id="modal-category-container"></div>
-    </div>
+  <div class="modal-content">
+    <button id="modal-close-btn">✖</button>
+    <div id="modal-category-container"></div>
+  </div>
 </div>
 
 <script src="renderer-categories.js"></script>

@@ -16,7 +16,7 @@ document.getElementById('extract-btn').addEventListener('click', async () => {
 
   try {
     await ipcRenderer.invoke('run-parser', selectedFile);
-    ipcRenderer.send('open-cardholders-page');
+    ipcRenderer.send('open-categories-page');
   } catch (err) {
     alert('Error running parser: ' + err);
   }

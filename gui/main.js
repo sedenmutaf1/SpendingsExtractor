@@ -4,8 +4,10 @@ const fs = require('fs');
 const { execFile } = require('child_process');
 
 let extractionWindow = null;
-let cardholdersWindow = null;
-let extractedData = null; // store JSON data from parser
+let categoriesWindow = null;
+
+let extractedData = null;         // RAW parser JSON
+let selectedUserIndexes = [];     // which users are selected
 
 // -----------------------------
 // Create Extraction Window
@@ -19,48 +21,38 @@ function createExtractionWindow() {
   extractionWindow = new BrowserWindow({
     width: 500,
     height: 550,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false
-    }
+    webPreferences: { nodeIntegration: true, contextIsolation: false }
   });
 
   extractionWindow.loadFile(path.join(__dirname, 'index.html'));
-
-  extractionWindow.on('closed', () => {
-    extractionWindow = null;
-  });
+  extractionWindow.on('closed', () => (extractionWindow = null));
 }
 
 // -----------------------------
-// Create Cardholders Window
+// Create Categories Window (single page after index)
 // -----------------------------
-function createCardholdersWindow() {
-  if (cardholdersWindow) {
-    cardholdersWindow.focus();
+function createCategoriesWindow() {
+  if (categoriesWindow) {
+    categoriesWindow.focus();
     return;
   }
 
-  // Close extraction window when opening cardholders
   if (extractionWindow) {
     extractionWindow.close();
     extractionWindow = null;
   }
 
-  cardholdersWindow = new BrowserWindow({
-    width: 1200,
-    height: 800,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false
-    }
+  categoriesWindow = new BrowserWindow({
+    width: 1400,
+    height: 900,
+    webPreferences: { nodeIntegration: true, contextIsolation: false }
   });
 
-  cardholdersWindow.maximize();
-  cardholdersWindow.loadFile(path.join(__dirname, 'cardholders.html'));
+  categoriesWindow.maximize();
+  categoriesWindow.loadFile(path.join(__dirname, 'categories.html'));
 
-  cardholdersWindow.on('closed', () => {
-    cardholdersWindow = null;
+  categoriesWindow.on('closed', () => {
+    categoriesWindow = null;
   });
 }
 
@@ -109,6 +101,7 @@ ipcMain.handle('run-parser', async (event, pdfPath) => {
 
         try {
           extractedData = JSON.parse(stdout);
+          selectedUserIndexes = []; // reset selection
           resolve();
         } catch (err) {
           reject('Parser output is not valid JSON. Ensure parser prints ONLY JSON to stdout.\n' + err);
@@ -119,13 +112,57 @@ ipcMain.handle('run-parser', async (event, pdfPath) => {
 });
 
 // -----------------------------
-// Expose Extracted Data to Renderer
+// Open Categories Page (single page)
 // -----------------------------
-ipcMain.handle('get-extracted-data', () => extractedData);
+ipcMain.on('open-categories-page', () => {
+  createCategoriesWindow();
+});
 
 // -----------------------------
-// Open Cardholders Page
+// RAW extracted data (for sidebar)
 // -----------------------------
-ipcMain.on('open-cardholders-page', () => {
-  createCardholdersWindow();
+ipcMain.handle('get-raw-extracted-data', () => extractedData);
+
+// -----------------------------
+// Selection state
+// -----------------------------
+ipcMain.handle('set-selected-users', (event, indexes) => {
+  selectedUserIndexes = Array.isArray(indexes) ? indexes : [];
+});
+
+ipcMain.handle('get-selected-users', () => selectedUserIndexes);
+
+// -----------------------------
+// OLD-FORMAT data for categories list: { payments, total }
+// (filtered by selection; if none selected => all users)
+// -----------------------------
+ipcMain.handle('get-categories-data', () => {
+  if (!extractedData || !extractedData.users) return { payments: [], total: 0 };
+
+  const idxs =
+    selectedUserIndexes && selectedUserIndexes.length > 0
+      ? selectedUserIndexes
+      : extractedData.users.map((_, i) => i);
+
+  const payments = [];
+  let total = 0;
+
+  idxs.forEach(idx => {
+    const user = extractedData.users[idx];
+    if (!user || !user.transactions) return;
+
+    user.transactions.forEach(tx => {
+      if (tx.sign === 'credit') return;
+
+      payments.push({
+        date: tx.date,
+        description: `${tx.description} (${user.name})`,
+        amount: tx.amount
+      });
+
+      total += tx.amount;
+    });
+  });
+
+  return { payments, total };
 });
